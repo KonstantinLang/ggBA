@@ -32,5 +32,5 @@ ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width)
 ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
 }
 \seealso{
-ba_plot
+\link{ba_plot}
 }
