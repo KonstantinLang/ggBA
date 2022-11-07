@@ -42,7 +42,7 @@ ba_stat <- function(
     dplyr::summarise(
       n    = sum(!is.na(dfce)),         # number of not missing obs
       bias = mean(dfce, na.rm = TRUE),  # arithmetic mean of differences = bias
-      stdv = sd(dfce, na.rm = TRUE),    # SD of differences
+      stdv = stats::sd(dfce, na.rm = TRUE),    # SD of differences
       .groups = "keep"
     ) %>%
     dplyr::ungroup()
@@ -52,16 +52,16 @@ ba_stat <- function(
     dplyr::mutate(
       # t-based standard errors for bias and LoA
       conf.int = 1 - alpha / 2,
-      bias.add = qt(p = conf.int, df = n - 1) * stdv / sqrt(n),
-      loa.add  = qt(p = conf.int, df = n - 1) * stdv * sqrt(1/n + qnorm(conf.int)^2/(2*(n-1))),
+      bias.add = stats::qt(p = conf.int, df = n - 1) * stdv / sqrt(n),
+      loa.add  = stats::qt(p = conf.int, df = n - 1) * stdv * sqrt(1/n + stats::qnorm(conf.int)^2/(2*(n-1))),
       # confidence limits for 'bias'
       bias.lcl = bias - bias.add,
       bias.ucl = bias + bias.add,
       # lower & upper limit of agreement and their approximate (symmetric) confidence limits
-      lloa     = bias - qnorm(conf.int) * stdv,
+      lloa     = bias - stats::qnorm(conf.int) * stdv,
       lloa.lcl = lloa - loa.add,
       lloa.ucl = lloa + loa.add,
-      uloa     = bias + qnorm(conf.int) * stdv,
+      uloa     = bias + stats::qnorm(conf.int) * stdv,
       uloa.lcl = uloa - loa.add,
       uloa.ucl = uloa + loa.add
       # # exact intervals for n = 17
