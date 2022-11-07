@@ -1,10 +1,10 @@
 Type: Package
 Package: BAplot
-Title: Compute and visualize Bland Altman statistics
+Title: Compute and Visualize Bland Altman Statistics
 Version: 0.9
 Date: 2022-11-07
 Authors@R: person("Konstantin", "Lang", , "konstantin.lang1@bayer.com", role = c("aut", "cre"))
-Description: The package provides R functions to compute Bland-Altman statistics and to visualize those statistics.
+Description: R functions to compute Bland-Altman statistics and to visualize those statistics.
 License: file LICENSE
 URL: https://github.com/KonstantinLang/BAplot
 Depends:
@@ -24,7 +24,7 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-NeedsCmpilation: no
+NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
