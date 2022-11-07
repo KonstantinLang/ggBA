@@ -1,8 +1,4 @@
 
-<!-- badges: start -->
-[![Travis build status](https://travis-ci.com/KonstantinLang/BAplot.svg?branch=main)](https://travis-ci.com/KonstantinLang/BAplot)
-<!-- badges: end -->
-
 ## Bland-Altman
 
 A Bland-Altman plot is a method of data plotting used in analyzing the agreement between two different methods. It was popularised in medical statistics by J. Martin Bland and Douglas G. Altman. [1] [2]
