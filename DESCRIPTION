@@ -7,7 +7,7 @@ Authors@R: c(
     person("Konstantin", "Lang", , "konstantin.lang1@bayer.com", role = c("aut", "cre"))
   )
 Description: The package provides R functions to compute Bland-Altman statistics and to visualize those statistics.
-License: GPL (>= 3)
+License: file LICENSE
 URL: https://github.com/KonstantinLang/BAplot
 Depends:
     R (>= 3.6.1)
