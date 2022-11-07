@@ -1,8 +1,6 @@
-# files
+# R files
 .Rhistory
 .RData
 .Renviron
-
-# folders
 .Rproj.user/
-inst/doc
+
