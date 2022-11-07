@@ -1,6 +1,6 @@
-#' Bland-Altman plot
+#' @title Bland-Altman plot
 #'
-#' Plot Bland-Altman statistics
+#' @description Plot Bland-Altman statistics
 #'
 #' @param data A data frame
 #' @param var1 1st variable to compare (unquoted)
@@ -15,22 +15,33 @@
 #' @param caption plot caption
 #' @param alpha alpha level for the intervals
 #'
-#' @return ggplot2 object
+#' @return [ggplot2::ggplot] object
 #'
 #' @seealso [ba_stat]
 #'
 #' @export
 #'
 #' @examples
+#' library(dplyr)
+#'
 #' ## simple example
 #' ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
 #'
 #' ## with faceting
 #' ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
 ba_plot <- function(
-  data, var1, var2, label = NULL, group = NULL, colour = NULL, shape = NULL,
-  xlab = "Average", ylab = "Difference", title = NULL, caption = NULL,
-  alpha = 0.05
+  data    = stop("data must be specified"),
+  var1    = stop("variable must be specified"),
+  var2    = stop("variable must be specified"),
+  label   = NULL,
+  group   = NULL,
+  colour  = NULL,
+  shape   = NULL,
+  xlab    = "Average",
+  ylab    = "Difference",
+  title   = NULL,
+  caption = NULL,
+  alpha   = 0.05
 ) {
 
   # compute differences and averages between paired obs

@@ -5,9 +5,9 @@
 \title{Bland-Altman plot}
 \usage{
 ba_plot(
-  data,
-  var1,
-  var2,
+  data = stop("data must be specified"),
+  var1 = stop("variable must be specified"),
+  var2 = stop("variable must be specified"),
   label = NULL,
   group = NULL,
   colour = NULL,
@@ -45,12 +45,14 @@ ba_plot(
 \item{alpha}{alpha level for the intervals}
 }
 \value{
-ggplot2 object
+\link[ggplot2:ggplot]{ggplot2::ggplot} object
 }
 \description{
 Plot Bland-Altman statistics
 }
 \examples{
+library(dplyr)
+
 ## simple example
 ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
 
