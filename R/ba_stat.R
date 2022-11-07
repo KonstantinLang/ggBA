@@ -13,6 +13,8 @@
 #'
 #' @seealso ba_plot
 #'
+#' @export
+#'
 #' @examples
 #' ## simple example without grouping
 #' ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width)

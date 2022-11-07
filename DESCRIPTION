@@ -16,6 +16,8 @@ Imports:
     ggplot2 (>= 3.3.3),
     lifecycle,
     magrittr (>= 2.0.0),
+    rlang,
+    stringr,
     tidyr (>= 1.0.0)
 Suggests: 
     knitr,

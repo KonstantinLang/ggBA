@@ -19,6 +19,8 @@
 #'
 #' @seealso [ba_stat]
 #'
+#' @export
+#'
 #' @examples
 #' ## simple example
 #' ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
@@ -91,7 +93,7 @@ ba_plot <- function(
 
   tbl_1 <-
     {
-      if(rlan::as_label(rlang::enquo(group)) != "NULL") {
+      if(rlang::as_label(rlang::enquo(group)) != "NULL") {
         dplyr::left_join(
           x = tbl_0,
           y = tbl_stat %>%
