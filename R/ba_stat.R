@@ -11,7 +11,7 @@
 #'
 #' @return A data frame with three variables n (number of observations), parameter and value is returned.
 #'
-#' @seealso ba_plot
+#' @seealso [ba_plot]
 #'
 #' @export
 #'
