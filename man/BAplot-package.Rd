@@ -4,12 +4,19 @@
 \name{BAplot-package}
 \alias{BAplot}
 \alias{BAplot-package}
-\title{BAplot: What the Package Does (One Line, Title Case)}
+\title{BAplot: Compute and visualize Bland Altman statistics}
 \description{
-What the package does (one paragraph).
+The package provides R functions to compute Bland-Altman statistics and to visualize those statistics.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/KonstantinLang/BAplot}
+}
+
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Konstantin Lang \email{konstantin.lang1@bayer.com}
 
 }
 \keyword{internal}

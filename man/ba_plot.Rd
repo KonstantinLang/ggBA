@@ -48,7 +48,7 @@ ba_plot(
 ggplot2 object
 }
 \description{
-...
+Plot Bland-Altman statistics
 }
 \examples{
 ## simple example
@@ -58,5 +58,5 @@ ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
 ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
 }
 \seealso{
-ba_stat
+\link{ba_stat}
 }

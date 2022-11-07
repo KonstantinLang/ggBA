@@ -1,6 +1,6 @@
 #' Bland-Altman plot
 #'
-#' ...
+#' Plot Bland-Altman statistics
 #'
 #' @param data A data frame
 #' @param var1 1st variable to compare (unquoted)
@@ -17,7 +17,7 @@
 #'
 #' @return ggplot2 object
 #'
-#' @seealso ba_stat
+#' @seealso [ba_stat]
 #'
 #' @examples
 #' ## simple example
@@ -34,74 +34,74 @@ ba_plot <- function(
   # compute differences and averages between paired obs
   tbl_0 <-
     data %>%
-    mutate(
+    dplyr::mutate(
       dfce = {{var1}} - {{var2}},       # difference
       avg  = ({{var1}} + {{var2}}) / 2  # average
     )
 
   # derive all relevant statistics: bias, LoA, and confidence intervals
   tbl_stat <-
-    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha) %>%
-    mutate(
-      ltyp = str_detect(string = parameter, pattern = "\\."),
+    BAplot::ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha) %>%
+    dplyr::mutate(
+      ltyp = stringr::str_detect(string = parameter, pattern = "\\."),
       lsiz = (parameter != "bias")
     ) %>%
     {
-      if(as_label(enquo(group)) != "NULL") {
-        left_join(
+      if(rlang::as_label(rlang::enquo(group)) != "NULL") {
+        dplyr::left_join(
           x = .,
           y = tbl_0 %>%
-            group_by({{group}}) %>%
-            summarise(
+            dplyr::group_by({{group}}) %>%
+            dplyr::summarise(
               xmn = min(avg, na.rm = TRUE),
               xmx = max(avg, na.rm = TRUE),
               ymn = min(dfce, na.rm = TRUE),
               ymx = max(dfce, na.rm = TRUE),
               .groups = "keep"
             ) %>%
-            ungroup()
+            dplyr::ungroup()
         ) %>%
-          left_join(
+          dplyr::left_join(
             y = {.} %>%
-              group_by({{group}}) %>%
-              summarise(scale = ceiling(log10(min(abs(value))))) %>%
-              ungroup()
+              dplyr::group_by({{group}}) %>%
+              dplyr::summarise(scale = ceiling(log10(min(abs(value))))) %>%
+              dplyr::ungroup()
           )
       } else {
-        bind_cols(
+        dplyr::bind_cols(
           .,
           tbl_0 %>%
-            summarise(
+            dplyr::summarise(
               xmn = min(avg, na.rm = TRUE),
               xmx = max(avg, na.rm = TRUE),
               ymn = min(dfce, na.rm = TRUE),
               ymx = max(dfce, na.rm = TRUE)
             ),
-          {.} %>% summarise(scale = ceiling(log10(min(abs(value)))))
+          {.} %>% dplyr::summarise(scale = ceiling(log10(min(abs(value)))))
         )
       }
     } %>%
-    mutate(
+    dplyr::mutate(
       tx    = xmx + .12 * (xmx-xmn),
       ty    = value + (ymx-ymn) * .01,
       aux   = 3 - scale,
-      dplac = if_else(aux < 0, 0, aux) %>% if_else(. > 3, 3, .),
+      dplac = dplyr::if_else(aux < 0, 0, aux) %>% if_else(. > 3, 3, .),
       tlbl  = sprintf(fmt = paste0("%.", dplac, "f"), value)
     )
 
   tbl_1 <-
     {
-      if(as_label(enquo(group)) != "NULL") {
-        left_join(
+      if(rlan::as_label(rlang::enquo(group)) != "NULL") {
+        dplyr::left_join(
           x = tbl_0,
           y = tbl_stat %>%
-            pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value)
+            tidyr::pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value)
         )
       } else {
-        bind_cols(
+        dplyr::bind_cols(
           tbl_0,
           tbl_stat %>%
-            pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value)
+            tidyr::pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value)
         )
       }
     }
@@ -109,28 +109,28 @@ ba_plot <- function(
   # create BA-plot
   gg_ba <-
     tbl_1 %>%
-    ggplot(mapping = aes(x = avg, y = dfce, colour = {{colour}}, shape = {{shape}})) +
+    ggplot2::ggplot(mapping = aes(x = avg, y = dfce, colour = {{colour}}, shape = {{shape}})) +
     {
-      if(as_label(enquo(group)) != "NULL") facet_wrap(facets = vars({{group}}), scales = "free")
+      if(rlang::as_label(rlang::enquo(group)) != "NULL") ggplot2::facet_wrap(facets = vars({{group}}), scales = "free")
     } +
-    geom_hline(yintercept = 0, size = 1, colour = "#0091DF") +
-    geom_point(size = 3, alpha = 0.5) +
+    ggplot2::geom_hline(yintercept = 0, size = 1, colour = "#0091DF") +
+    ggplot2::geom_point(size = 3, alpha = 0.5) +
     {
-      if(as_label(enquo(label)) != "NULL") {
-        geom_text(
-          mapping     = aes(label = if_else(dfce < lloa | dfce > uloa, as.character({{label}}), "")),
+      if(rlang::as_label(rlang::enquo(label)) != "NULL") {
+        ggplot2::geom_text(
+          mapping     = ggplot2::aes(label = if_else(dfce < lloa | dfce > uloa, as.character({{label}}), "")),
           size        = 2,
           show.legend = FALSE
         )
       }
     } +
-    geom_hline(
-      mapping     = aes(yintercept = value, linetype = ltyp, size = lsiz),
+    ggplot2::geom_hline(
+      mapping     = ggplot2::aes(yintercept = value, linetype = ltyp, size = lsiz),
       data        = tbl_stat,
       show.legend = FALSE
     ) +
-    geom_text(
-      mapping     = aes(x = tx, y = ty, label = tlbl),
+    ggplot2::geom_text(
+      mapping     = ggplot2::aes(x = tx, y = ty, label = tlbl),
       size        = 2,
       colour      = "#808080",
       hjust       = "right",
@@ -138,12 +138,12 @@ ba_plot <- function(
       inherit.aes = FALSE,
       data        = tbl_stat
     ) +
-    scale_size_manual(values = c(1, 0.5)) +
-    labs(
+    ggplot2::scale_size_manual(values = c(1, 0.5)) +
+    ggplot2::labs(
       x = xlab, y = ylab, colour = NULL, shape = NULL,
       title = title, caption = caption
     ) +
-    theme(panel.grid = element_blank(), legend.position = "bottom")
+    ggplot2::theme(panel.grid = ggplot2::element_blank(), legend.position = "bottom")
 
   return(gg_ba)
 }

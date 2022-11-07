@@ -1,5 +1,5 @@
 #' Bland-Altman statistics
-#' 
+#'
 #' The function is computing all relevant Bland-Altman statistics, including bias, lower and upper
 #' limits of agreement and their confidence limits.
 #'
@@ -10,37 +10,35 @@
 #' @param alpha alpha level for the intervals
 #'
 #' @return A data frame with three variables n (number of observations), parameter and value is returned.
-#' 
-#' @seealso ba_plot 
+#'
+#' @seealso ba_plot
 #'
 #' @examples
 #' ## simple example without grouping
 #' ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width)
-#' 
+#'
 #' ## example with grouping
 #' ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
 ba_stat <- function(data, var1, var2, group = NULL, alpha = .05) {
-  
-  
-  
-  tbl_0 <- 
-    data %>% 
+
+  tbl_0 <-
+    data %>%
     mutate(
       dfce = {{var1}} - {{var2}},       # difference
       avg  = ({{var1}} + {{var2}}) / 2  # average
     )
-  
+
   tbl_stat_0 <-
-    tbl_0 %>% 
-    group_by({{group}}) %>% 
+    tbl_0 %>%
+    group_by({{group}}) %>%
     summarise(
       n    = sum(!is.na(dfce)),         # number of not missing obs
       bias = mean(dfce, na.rm = TRUE),  # arithmetic mean of differences = bias
       stdv = sd(dfce, na.rm = TRUE),    # SD of differences
       .groups = "keep"
-    ) %>% 
+    ) %>%
     ungroup()
-  
+
   tbl_stat_1 <-
     tbl_stat_0 %>%
     mutate(
@@ -65,9 +63,9 @@ ba_stat <- function(data, var1, var2, group = NULL, alpha = .05) {
       # lloa.ucl = bias - loa.in * stdv,
       # lloa.ucl = bias + loa.out * stdv,
       # lloa.lcl = bias + loa.in * stdv
-    ) %>% 
-    select({{group}}, n, bias, lloa, uloa, ends_with(match = "lcl"), ends_with(match = "ucl")) %>% 
+    ) %>%
+    select({{group}}, n, bias, lloa, uloa, ends_with(match = "lcl"), ends_with(match = "ucl")) %>%
     pivot_longer(cols = bias:uloa.ucl, names_to = "parameter", values_to = "value")
-  
+
   return(tbl_stat_1)
 }
