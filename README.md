@@ -1,4 +1,8 @@
 
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
+
 ## Bland-Altman
 
 A Bland-Altman plot is a method of data plotting used in analyzing the agreement between two different methods. It was popularised in medical statistics by J. Martin Bland and Douglas G. Altman. [1] [2]
