@@ -4,9 +4,9 @@
 \name{BAplot-package}
 \alias{BAplot}
 \alias{BAplot-package}
-\title{BAplot: Compute and visualize Bland Altman statistics}
+\title{BAplot: Compute and Visualize Bland Altman Statistics}
 \description{
-The package provides R functions to compute Bland-Altman statistics and to visualize those statistics.
+R functions to compute Bland-Altman statistics and to visualize those statistics.
 }
 \seealso{
 Useful links:
