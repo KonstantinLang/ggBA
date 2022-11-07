@@ -9,7 +9,7 @@
 #' @param group grouping variable (unquoted)
 #' @param alpha alpha level for the intervals
 #'
-#' @return A data frame with three variables n (number of observations), parameter and value is returned.
+#' @return A [tibble] with three variables n (number of observations), parameter and value is returned.
 #'
 #' @seealso [ba_plot]
 #'
@@ -21,29 +21,35 @@
 #'
 #' ## example with grouping
 #' ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
-ba_stat <- function(data, var1, var2, group = NULL, alpha = .05) {
+ba_stat <- function(
+  data  = stop("data must be specified"),
+  var1  = stop("variable must be specified"),
+  var2  = stop("variable must be specified"),
+  group = NULL,
+  alpha = .05
+) {
 
   tbl_0 <-
     data %>%
-    mutate(
+    dplyr::mutate(
       dfce = {{var1}} - {{var2}},       # difference
       avg  = ({{var1}} + {{var2}}) / 2  # average
     )
 
   tbl_stat_0 <-
     tbl_0 %>%
-    group_by({{group}}) %>%
-    summarise(
+    dplyr::group_by({{group}}) %>%
+    dplyr::summarise(
       n    = sum(!is.na(dfce)),         # number of not missing obs
       bias = mean(dfce, na.rm = TRUE),  # arithmetic mean of differences = bias
       stdv = sd(dfce, na.rm = TRUE),    # SD of differences
       .groups = "keep"
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   tbl_stat_1 <-
     tbl_stat_0 %>%
-    mutate(
+    dplyr::mutate(
       # t-based standard errors for bias and LoA
       conf.int = 1 - alpha / 2,
       bias.add = qt(p = conf.int, df = n - 1) * stdv / sqrt(n),
@@ -66,8 +72,9 @@ ba_stat <- function(data, var1, var2, group = NULL, alpha = .05) {
       # lloa.ucl = bias + loa.out * stdv,
       # lloa.lcl = bias + loa.in * stdv
     ) %>%
-    select({{group}}, n, bias, lloa, uloa, ends_with(match = "lcl"), ends_with(match = "ucl")) %>%
-    pivot_longer(cols = bias:uloa.ucl, names_to = "parameter", values_to = "value")
+    dplyr::select({{group}}, n, bias, lloa, uloa,
+                  dplyr::ends_with(match = "lcl"), dplyr::ends_with(match = "ucl")) %>%
+    tidyr::pivot_longer(cols = bias:uloa.ucl, names_to = "parameter", values_to = "value")
 
   return(tbl_stat_1)
 }

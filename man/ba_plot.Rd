@@ -51,8 +51,6 @@ ba_plot(
 Plot Bland-Altman statistics
 }
 \examples{
-library(dplyr)
-
 ## simple example
 ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
 

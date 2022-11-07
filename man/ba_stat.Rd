@@ -4,7 +4,13 @@
 \alias{ba_stat}
 \title{Bland-Altman statistics}
 \usage{
-ba_stat(data, var1, var2, group = NULL, alpha = 0.05)
+ba_stat(
+  data = stop("data must be specified"),
+  var1 = stop("variable must be specified"),
+  var2 = stop("variable must be specified"),
+  group = NULL,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{data}{A data frame}
@@ -18,7 +24,7 @@ ba_stat(data, var1, var2, group = NULL, alpha = 0.05)
 \item{alpha}{alpha level for the intervals}
 }
 \value{
-A data frame with three variables n (number of observations), parameter and value is returned.
+A \link{tibble} with three variables n (number of observations), parameter and value is returned.
 }
 \description{
 The function is computing all relevant Bland-Altman statistics, including bias, lower and upper
