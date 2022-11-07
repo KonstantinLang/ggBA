@@ -1,7 +1,8 @@
 
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml)
-  <!-- badges: end -->
+  [![pkgdown](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml)
+<!-- badges: end -->
 
 ## Bland-Altman
 
