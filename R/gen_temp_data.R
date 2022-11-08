@@ -10,7 +10,7 @@
 #' \item{tempareture}{body temparature in °C, `numeric`}
 #'
 #' @examples
-#' temperature <- gen_data()
+#' temperature <- gen_temp_data()
 gen_temp_data <- function(seed = NULL) {
   set.seed(seed = seed)
 

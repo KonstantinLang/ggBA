@@ -21,5 +21,5 @@ gen_temp_data(seed = NULL)
 Generate rodents temperature data
 }
 \examples{
-temperature <- gen_data()
+temperature <- gen_temp_data()
 }
