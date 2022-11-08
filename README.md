@@ -4,7 +4,7 @@
   [![R-CMD-check](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml)
   [![pkgdown](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml)
   [![](https://img.shields.io/github/last-commit/KonstantinLang/BAplot.svg)](https://github.com/KonstantinLang/BAplot/commits/main)
-  [![Github All Releases](https://img.shields.io/github/downloads/KonstantinLang/BAplot/total.svg)](https://github.com/KonstantinLang/BAplot/commits/main)
+  [![Github All Releases](https://img.shields.io/github/downloads/KonstantinLang/BAplot/total.svg)]()
 <!-- badges: end -->
 
 ## Bland-Altman
