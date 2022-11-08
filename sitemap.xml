@@ -31,9 +31,15 @@
     <loc>/reference/ba_stat.html</loc>
   </url>
   <url>
+    <loc>/reference/gen_temp_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/temperature.html</loc>
   </url>
 </urlset>
