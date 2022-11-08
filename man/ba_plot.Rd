@@ -51,11 +51,17 @@ ba_plot(
 Plot Bland-Altman statistics
 }
 \examples{
-## simple example
-ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width)
+library(tidyr)
+tbl <- temperature \%>\% pivot_wider(names_from = method, values_from = temperature)
 
-## with faceting
-ba_plot(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
+# simple example
+ba_plot(data = tbl, var1 = infrared, var2 = rectal)
+
+# with colors
+ba_plot(data = tbl, var1 = infrared, var2 = rectal, colour = visit)
+
+# with colors and faceting
+ba_plot(data = tbl, var1 = infrared, var2 = rectal, group = treatment, colour = visit)
 }
 \seealso{
 \link{ba_stat}

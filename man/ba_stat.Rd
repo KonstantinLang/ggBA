@@ -31,11 +31,15 @@ The function is computing all relevant Bland-Altman statistics, including bias, 
 limits of agreement and their confidence limits.
 }
 \examples{
-## simple example without grouping
-ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width)
+library(tidyr)
+tbl <- temperature \%>\% pivot_wider(names_from = method, values_from = temperature)
+
+# simple example
+ba_stat(data = tbl, var1 = infrared, var2 = rectal)
 
 ## example with grouping
-ba_stat(data = iris, var1 = Petal.Length, var2 = Petal.Width, group = Species)
+ba_stat(data = tbl, var1 = infrared, var2 = rectal, group = treatment) \%>\%
+  pivot_wider(names_from = parameter, values_from = value)
 }
 \seealso{
 \link{ba_plot}

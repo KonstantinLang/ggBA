@@ -10,7 +10,7 @@ test_that("silent", {expect_silent(object = tbl_stat)})
 
 test_that("type list", {expect_type(object = tbl_stat, type = "list")})
 
-test_that("S3 class tbl_df", {expect_s3_class(object = gg, class = "tbl_df")})
+test_that("S3 class tbl_df", {expect_s3_class(object = tbl_stat, class = "tbl_df")})
 
 test_that(
   "correct names",
