@@ -2,7 +2,7 @@
 title: "compare methods"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{compare_methods}
+  %\VignetteIndexEntry{compare methods}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
