@@ -10,7 +10,7 @@
 #' \item{tempareture}{body temparature in °C, `numeric`}
 #'
 #' @examples
-#' temperature <- gen_temp_data()
+#' temperature <- BAplot:::gen_temp_data()
 gen_temp_data <- function(seed = NULL) {
   set.seed(seed = seed)
 
@@ -26,7 +26,7 @@ gen_temp_data <- function(seed = NULL) {
       visit  = c("baseline", paste("visit", 1:3), "end of treatment"),
       method = c("rectal", "infrared")
     ) %>%
-    dplyr::mutate(dplyr::across(.cols = tidyselect:::where(is.character), .fns = forcats::fct_inorder)) %>%
+    dplyr::mutate(dplyr::across(.cols = tidyselect::vars_select_helpers$where(is.character), .fns = forcats::fct_inorder)) %>%
     dplyr::mutate(
       aux = as.integer(visit) - 1,
       temperature =

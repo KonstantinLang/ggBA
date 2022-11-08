@@ -5,7 +5,7 @@
 #' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL
-utils::globalVariables(c("parameter", "avg", "dfce", ".", "value", "xmx", "xmn", "ymx", "ymn",
-                         "dplac", "ltyp", "lsiz", "tx", "ty", "tlbl"))
-utils::globalVariables(c("dfce", "conf.int", "n", "stdv", "bias", "bias.add", "lloa", "loa.add",
-                         "uloa", "uloa.ucl"))
+utils::globalVariables(c(".", "aux", "avg", "bias", "bias.add", "conf.int", "dfce", "dplac",
+                         "lloa", "loa.add", "lsiz", "ltyp", "method", "n", "parameter", "stdv",
+                         "tlbl", "treatment", "tx", "ty", "uloa", "uloa.ucl", "value", "visit",
+                         "xmx", "xmn", "ymx", "ymn"))
