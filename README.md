@@ -1,7 +1,9 @@
 
 <!-- badges: start -->
+`r lifecycle::badge("experimental")`
   [![R-CMD-check](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml)
   [![pkgdown](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml)
+  "[![](https://img.shields.io/github/last-commit/KonstantinLang/BAplot.svg)](https://github.com/KonstantinLang/BAplot/commits/main)"
 <!-- badges: end -->
 
 ## Bland-Altman
