@@ -27,6 +27,21 @@ Install source package from this repo. 3<sup>rd</sup>-party packages required or
 remotes::install_github("KonstantinLang/ggBA")
 ```
 
+## CRAN pre-submission check
+
+For a full local CRAN-style check (including manual/PDF checks), install system tools first:
+
+- `pdflatex` (e.g. via TeX Live/TinyTeX)
+- `qpdf`
+- `tidy` (optional, for HTML validation notes)
+
+Then run:
+
+```sh
+R CMD build .
+R CMD check --as-cran BAplot_0.2.0.tar.gz
+```
+
 ## Issue tracker
 
 Report bugs etc. at https://github.com/KonstantinLang/ggBA/issues.

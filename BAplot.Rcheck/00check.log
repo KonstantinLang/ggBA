@@ -65,8 +65,6 @@ unable to verify current time
 * checking data for non-ASCII characters ... OK
 * checking LazyData ... OK
 * checking data for ASCII and uncompressed saves ... OK
- WARNING
-‘qpdf’ is needed for checks on size reduction of PDFs
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
 * checking examples ... OK
@@ -79,4 +77,4 @@ unable to verify current time
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 WARNING, 2 NOTEs
+Status: 2 NOTEs

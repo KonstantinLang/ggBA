@@ -21,9 +21,21 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install system dependencies for full CRAN checks
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qpdf tidy
+
+      - uses: r-lib/actions/setup-tinytex@v2
+      - name: Install TinyTeX LaTeX packages
+        run: tinytex::tlmgr_install(c("inconsolata"))
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: 'c("--as-cran")'
