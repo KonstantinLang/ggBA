@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' library(tidyr)
-#' tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+#' tbl <- temperature |> pivot_wider(names_from = method, values_from = temperature)
 #'
 #' # identity (default) – same as used inside ba_stat / ba_plot
 #' ba_mean_diff(tbl, var1 = infrared, var2 = rectal)
@@ -48,12 +48,12 @@ ba_mean_diff <- function(
     logit    = function(x) log(x / (1 - x))
   )
 
-  data %>%
+  data |>
     dplyr::mutate(
       .v1  = trans_fn({{var1}}),
       .v2  = trans_fn({{var2}}),
       avg  = (.v1 + .v2) / 2,
       dfce = .v1 - .v2
-    ) %>%
+    ) |>
     dplyr::select(-.v1, -.v2)
 }

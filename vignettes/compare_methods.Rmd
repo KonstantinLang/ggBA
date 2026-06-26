@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 Load packages
 
 ```{r setup}
-library(magrittr)    # A Forward-Pipe Operator for R
 library(tidyr)       # Tidy Messy Data
 # library(knitr)       # A General-Purpose Package for Dynamic Report Generation in R
 library(kableExtra)  # Construct Complex Table with 'kable' and Pipe Syntax
@@ -44,7 +43,7 @@ Prepare data: create columns for every method of measuring temperature.
 
 ```{r dataprep}
 tbl <- 
-  temperature %>% 
+  temperature |> 
   pivot_wider(names_from = method, values_from = temperature)
 ```
 
@@ -53,9 +52,9 @@ tbl <-
 ### Compute statistics
 
 ```{r simple_stats_table}
-ba_stat(data = tbl, var1 = infrared, var2 = rectal) %>% 
-  pivot_wider(names_from = parameter, values_from = value) %>% 
-  kable() %>% 
+ba_stat(data = tbl, var1 = infrared, var2 = rectal) |> 
+  pivot_wider(names_from = parameter, values_from = value) |> 
+  kable() |> 
   kable_styling()
 ```
 

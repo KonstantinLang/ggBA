@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' library(tidyr)
-#' tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+#' tbl <- temperature |> pivot_wider(names_from = method, values_from = temperature)
 #'
 #' # simple example
 #' ba_plot(data = tbl, var1 = infrared, var2 = rectal)
@@ -55,39 +55,45 @@ ba_plot <- function(
 
   # compute differences and averages between paired obs
   tbl_0 <-
-    data %>%
+    data |>
     dplyr::mutate(
       dfce = {{var1}} - {{var2}},       # difference
       avg  = ({{var1}} + {{var2}}) / 2  # average
     )
 
   # derive all relevant statistics: bias, LoA, and confidence intervals
-  tbl_stat <-
-    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha) %>%
+  tbl_stat_base <-
+    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha) |>
     dplyr::mutate(
       ltyp = stringr::str_detect(string = parameter, pattern = "(lcl|ucl)$"),
       lsiz = (parameter != "bias")
-    ) %>%
+    ) |>
     dplyr::left_join(
-      y  = tbl_0 %>%
-        dplyr::group_by({{group}}) %>%
+      y  = tbl_0 |>
+        dplyr::group_by({{group}}) |>
         dplyr::summarise(
           xmn = min(avg, na.rm = TRUE),
           xmx = max(avg, na.rm = TRUE),
           ymn = min(dfce, na.rm = TRUE),
           ymx = max(dfce, na.rm = TRUE),
           .groups = "keep"
-        ) %>%
+        ) |>
         dplyr::ungroup(),
       by = glbl
-    ) %>%
-    dplyr::left_join(
-      y  = {.} %>%
-        dplyr::group_by({{group}}) %>%
-        dplyr::summarise(scale = ceiling(log10(min(abs(value))))) %>%
-        dplyr::ungroup(),
-      by = glbl
-    ) %>%
+    )
+
+  tbl_scale <-
+    tbl_stat_base |>
+    dplyr::group_by({{group}}) |>
+    dplyr::summarise(scale = {
+      nz <- abs(value[value != 0])
+      if (length(nz) == 0L) 0 else ceiling(log10(min(nz)))
+    }) |>
+    dplyr::ungroup()
+
+  tbl_stat <-
+    tbl_stat_base |>
+    dplyr::left_join(y = tbl_scale, by = glbl) |>
     dplyr::mutate(
       tx    = xmx + .12 * (xmx-xmn),
       ty    = value + (ymx-ymn) * .01,
@@ -103,14 +109,14 @@ ba_plot <- function(
   tbl_1 <-
     dplyr::left_join(
       x  = tbl_0,
-      y  = tbl_stat %>%
+      y  = tbl_stat |>
         tidyr::pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value),
       by = glbl
     )
 
   # create BA-plot
   gg_point <-
-    tbl_1 %>%
+    tbl_1 |>
     ggplot2::ggplot(mapping = ggplot2::aes(x = avg, y = dfce, colour = {{colour}}, shape = {{shape}})) +
     {
       if(length(glbl) > 0)
