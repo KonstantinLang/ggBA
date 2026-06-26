@@ -21,6 +21,6 @@ NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
-Packaged: 2026-06-26 19:53:12 UTC; runner
+Packaged: 2026-06-26 19:54:19 UTC; runner
 Author: Konstantin Lang [aut, cre]
 Maintainer: Konstantin Lang <konstantin.lang1@bayer.com>

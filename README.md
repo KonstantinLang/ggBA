@@ -39,7 +39,7 @@ Then run:
 
 ```sh
 R CMD build .
-R CMD check --as-cran BAplot_0.2.0.tar.gz
+R CMD check --as-cran BAplot_*.tar.gz
 ```
 
 ## Issue tracker
