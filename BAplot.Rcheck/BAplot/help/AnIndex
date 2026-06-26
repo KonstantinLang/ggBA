@@ -1,8 +1,0 @@
-BAplot-package	BAplot-package
-%>%	pipe
-BAplot	BAplot-package
-ba_mean_diff	ba_mean_diff
-ba_plot	ba_plot
-ba_stat	ba_stat
-gen_temp_data	gen_temp_data
-temperature	temperature
