@@ -4,10 +4,10 @@
 #'
 #' @return \code{\link{tibble}} with columns
 #' \item{animalID}{unique animal ID: 1-90, `integer`}
-#' \item{treatment}{one of: healthy, untreated, low dose, mid dose, high dose, positive control, `factor`}
+#' \item{treatment}{one of: healthy, vehicle, low dose, mid dose, high dose, SoC, `factor`}
 #' \item{method}{measurement method: rectal, infrared, `factor`}
-#' \item{visit}{one of: baseline, visit1, visit2, visit3, end of treatment, `factor`}
-#' \item{tempareture}{body temparature in °C, `numeric`}
+#' \item{visit}{one of: baseline, visit 1, visit 2, visit 3, end of treatment, `factor`}
+#' \item{temperature}{body temperature in °C, `numeric`}
 #'
 #' @examples
 #' temperature <- BAplot:::gen_temp_data()

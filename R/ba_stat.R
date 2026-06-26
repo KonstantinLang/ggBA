@@ -33,6 +33,9 @@ ba_stat <- function(
   alpha = .05
 ) {
 
+  stopifnot(inherits(data, "data.frame"))
+  stopifnot(is.numeric(alpha), length(alpha) == 1L, alpha > 0, alpha < 1)
+
   tbl_0 <-
     data %>%
     dplyr::mutate(
