@@ -84,7 +84,10 @@ ba_plot <- function(
     dplyr::left_join(
       y  = {.} %>%
         dplyr::group_by({{group}}) %>%
-        dplyr::summarise(scale = ceiling(log10(min(abs(value))))) %>%
+        dplyr::summarise(scale = {
+          nz <- abs(value[value != 0])
+          if (length(nz) == 0L) 0 else ceiling(log10(min(nz)))
+        }) %>%
         dplyr::ungroup(),
       by = glbl
     ) %>%
