@@ -14,16 +14,18 @@
 #' @param title plot title
 #' @param caption plot caption
 #' @param alpha alpha level for the intervals
+#' @param transform Transformation applied before computing statistics.  One of `"identity"`
+#'   (default), `"log"`, or `"logit"`.  Delegates to [ba_mean_diff()].
 #'
 #' @return [ggplot2::ggplot] object
 #'
-#' @seealso [ba_stat]
+#' @seealso [ba_stat], [ba_mean_diff]
 #'
 #' @export
 #'
 #' @examples
 #' library(tidyr)
-#' tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+#' tbl <- temperature |> pivot_wider(names_from = method, values_from = temperature)
 #'
 #' # simple example
 #' ba_plot(data = tbl, var1 = infrared, var2 = rectal)
@@ -34,36 +36,34 @@
 #' # with colors and faceting
 #' ba_plot(data = tbl, var1 = infrared, var2 = rectal, group = treatment, colour = visit)
 ba_plot <- function(
-  data    = stop("data must be specified"),
-  var1    = stop("variable must be specified"),
-  var2    = stop("variable must be specified"),
-  label   = NULL,
-  group   = NULL,
-  colour  = NULL,
-  shape   = NULL,
-  xlab    = "Average",
-  ylab    = "Difference",
-  title   = NULL,
-  caption = NULL,
-  alpha   = 0.05
+  data      = stop("data must be specified"),
+  var1      = stop("variable must be specified"),
+  var2      = stop("variable must be specified"),
+  label     = NULL,
+  group     = NULL,
+  colour    = NULL,
+  shape     = NULL,
+  xlab      = "Average",
+  ylab      = "Difference",
+  title     = NULL,
+  caption   = NULL,
+  alpha     = 0.05,
+  transform = c("identity", "log", "logit")
 ) {
 
   stopifnot(inherits(data, "data.frame"))
+  transform <- match.arg(transform)
 
   glbl <- rlang::as_label(rlang::enquo(group))
   glbl <- if (glbl == "NULL") as.character() else glbl
 
   # compute differences and averages between paired obs
-  tbl_0 <-
-    data %>%
-    dplyr::mutate(
-      dfce = {{var1}} - {{var2}},       # difference
-      avg  = ({{var1}} + {{var2}}) / 2  # average
-    )
+  tbl_0 <- ba_mean_diff(data = data, var1 = {{var1}}, var2 = {{var2}}, transform = transform)
 
   # derive all relevant statistics: bias, LoA, and confidence intervals
   tbl_stat <-
-    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha) %>%
+    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha,
+            transform = transform) %>%
     dplyr::mutate(
       ltyp = stringr::str_detect(string = parameter, pattern = "(lcl|ucl)$"),
       lsiz = (parameter != "bias")
