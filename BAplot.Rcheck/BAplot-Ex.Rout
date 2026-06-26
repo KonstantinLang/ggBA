@@ -1,0 +1,211 @@
+
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "BAplot"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> base::assign(".ExTimings", "BAplot-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('BAplot')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("ba_mean_diff")
+> ### * ba_mean_diff
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ba_mean_diff
+> ### Title: Derive mean and difference for Bland-Altman analysis
+> ### Aliases: ba_mean_diff
+> 
+> ### ** Examples
+> 
+> library(tidyr)
+> tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+> 
+> # identity (default) - same as used inside ba_stat / ba_plot
+> ba_mean_diff(tbl, var1 = infrared, var2 = rectal)
+# A tibble: 450 × 7
+   animalID treatment visit            rectal infrared   avg   dfce
+      <int> <fct>     <fct>             <dbl>    <dbl> <dbl>  <dbl>
+ 1        1 healthy   baseline           33.9     34.8  34.4  0.932
+ 2        1 healthy   visit 1            34.6     36.5  35.5  1.92 
+ 3        1 healthy   visit 2            35.4     36.2  35.8  0.780
+ 4        1 healthy   visit 3            35.4     35.7  35.6  0.310
+ 5        1 healthy   end of treatment   35.7     35.1  35.4 -0.616
+ 6        2 vehicle   baseline           37.6     38.6  38.1  0.969
+ 7        2 vehicle   visit 1            35.1     38.5  36.8  3.39 
+ 8        2 vehicle   visit 2            37.4     36.0  36.7 -1.42 
+ 9        2 vehicle   visit 3            37.9     36.1  37.0 -1.87 
+10        2 vehicle   end of treatment   38.7     36.4  37.6 -2.32 
+# ℹ 440 more rows
+> 
+> # log transformation
+> ba_mean_diff(tbl, var1 = infrared, var2 = rectal, transform = "log")
+# A tibble: 450 × 7
+   animalID treatment visit            rectal infrared   avg     dfce
+      <int> <fct>     <fct>             <dbl>    <dbl> <dbl>    <dbl>
+ 1        1 healthy   baseline           33.9     34.8  3.54  0.0271 
+ 2        1 healthy   visit 1            34.6     36.5  3.57  0.0540 
+ 3        1 healthy   visit 2            35.4     36.2  3.58  0.0218 
+ 4        1 healthy   visit 3            35.4     35.7  3.57  0.00873
+ 5        1 healthy   end of treatment   35.7     35.1  3.57 -0.0174 
+ 6        2 vehicle   baseline           37.6     38.6  3.64  0.0254 
+ 7        2 vehicle   visit 1            35.1     38.5  3.60  0.0922 
+ 8        2 vehicle   visit 2            37.4     36.0  3.60 -0.0387 
+ 9        2 vehicle   visit 3            37.9     36.1  3.61 -0.0505 
+10        2 vehicle   end of treatment   38.7     36.4  3.63 -0.0618 
+# ℹ 440 more rows
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ba_mean_diff", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+
+detaching ‘package:tidyr’
+
+> nameEx("ba_plot")
+> ### * ba_plot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ba_plot
+> ### Title: Bland-Altman plot
+> ### Aliases: ba_plot
+> 
+> ### ** Examples
+> 
+> library(tidyr)
+> tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+> 
+> # simple example
+> ba_plot(data = tbl, var1 = infrared, var2 = rectal)
+> 
+> # with colors
+> ba_plot(data = tbl, var1 = infrared, var2 = rectal, colour = visit)
+> 
+> # with colors and faceting
+> ba_plot(data = tbl, var1 = infrared, var2 = rectal, group = treatment, colour = visit)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ba_plot", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+
+detaching ‘package:tidyr’
+
+> nameEx("ba_stat")
+> ### * ba_stat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ba_stat
+> ### Title: Bland-Altman statistics
+> ### Aliases: ba_stat
+> 
+> ### ** Examples
+> 
+> library(tidyr)
+> tbl <- temperature %>% pivot_wider(names_from = method, values_from = temperature)
+> 
+> # simple example
+> ba_stat(data = tbl, var1 = infrared, var2 = rectal)
+# A tibble: 9 × 3
+      n parameter   value
+  <int> <chr>       <dbl>
+1   450 bias       0.234 
+2   450 lloa      -2.85  
+3   450 uloa       3.32  
+4   450 bias.lcl   0.0879
+5   450 lloa.lcl  -3.10  
+6   450 uloa.lcl   3.07  
+7   450 bias.ucl   0.379 
+8   450 lloa.ucl  -2.60  
+9   450 uloa.ucl   3.57  
+> 
+> ## example with grouping
+> ba_stat(data = tbl, var1 = infrared, var2 = rectal, group = treatment) %>%
++   pivot_wider(names_from = parameter, values_from = value)
+# A tibble: 6 × 11
+  treatment     n   bias  lloa  uloa bias.lcl lloa.lcl uloa.lcl bias.ucl
+  <fct>     <int>  <dbl> <dbl> <dbl>    <dbl>    <dbl>    <dbl>    <dbl>
+1 healthy      75 0.202  -2.51  2.92  -0.116     -3.06     2.37    0.521
+2 vehicle      75 0.0383 -3.23  3.30  -0.345     -3.88     2.65    0.422
+3 low dose     75 0.0353 -3.16  3.23  -0.339     -3.80     2.58    0.410
+4 mid dose     75 0.634  -2.45  3.72   0.273     -3.07     3.09    0.996
+5 high dose    75 0.173  -3.15  3.50  -0.218     -3.82     2.83    0.563
+6 SoC          75 0.319  -2.50  3.14  -0.0125    -3.07     2.57    0.650
+# ℹ 2 more variables: lloa.ucl <dbl>, uloa.ucl <dbl>
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ba_stat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+
+detaching ‘package:tidyr’
+
+> nameEx("gen_temp_data")
+> ### * gen_temp_data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: gen_temp_data
+> ### Title: Generate rodents temperature data
+> ### Aliases: gen_temp_data
+> 
+> ### ** Examples
+> 
+> temperature <- BAplot:::gen_temp_data()
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("gen_temp_data", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.768 0.05 1.819 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
