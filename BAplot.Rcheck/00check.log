@@ -11,14 +11,8 @@
 * checking extension type ... Package
 * this is package ‘BAplot’ version ‘0.2.0’
 * package encoding: UTF-8
-* checking CRAN incoming feasibility ... NOTE
+* checking CRAN incoming feasibility ... Note_to_CRAN_maintainers
 Maintainer: ‘Konstantin Lang <konstantin.lang1@bayer.com>’
-
-Found the following (possibly) invalid URLs:
-  URL: https://github.com/KonstantinLang/BAplot (moved to https://github.com/KonstantinLang/ggBA)
-    From: man/BAplot-package.Rd
-    Status: 200
-    Message: OK
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -79,4 +73,4 @@ unable to verify current time
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 WARNING, 2 NOTEs
+Status: 1 WARNING, 1 NOTE

@@ -11,7 +11,7 @@ R functions to compute Bland-Altman statistics and to visualize those statistics
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/KonstantinLang/BAplot}
+  \item \url{https://github.com/KonstantinLang/ggBA}
 }
 
 }
