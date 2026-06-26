@@ -1,12 +1,12 @@
 Type: Package
 Package: BAplot
 Title: Compute and Visualize Bland Altman Statistics
-Version: 0.1.0
-Date: 2022-11-07
+Version: 0.2.0
+Date: 2026-06-26
 Authors@R: person("Konstantin", "Lang", , "konstantin.lang1@bayer.com", role = c("aut", "cre"))
 Description: R functions to compute Bland-Altman statistics and to visualize those statistics.
 License: file LICENSE
-URL: https://github.com/KonstantinLang/BAplot
+URL: https://github.com/KonstantinLang/ggBA
 Depends:
     R (>= 4.0)
 Imports: 

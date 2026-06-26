@@ -1,8 +1,8 @@
 
 <!-- badges: start -->
-  [![R-CMD-check](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/R-CMD-check.yaml)
-  [![pkgdown](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/KonstantinLang/BAplot/actions/workflows/pkgdown.yaml)
-  [![](https://img.shields.io/github/last-commit/KonstantinLang/BAplot.svg)](https://github.com/KonstantinLang/BAplot/commits/main)
+  [![R-CMD-check](https://github.com/KonstantinLang/ggBA/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KonstantinLang/ggBA/actions/workflows/R-CMD-check.yaml)
+  [![pkgdown](https://github.com/KonstantinLang/ggBA/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/KonstantinLang/ggBA/actions/workflows/pkgdown.yaml)
+  [![](https://img.shields.io/github/last-commit/KonstantinLang/ggBA.svg)](https://github.com/KonstantinLang/ggBA/commits/main)
 <!-- badges: end -->
 
 ## Bland-Altman
@@ -29,7 +29,7 @@ remotes::install_github("KonstantinLang/ggBA")
 
 ## Issue tracker
 
-Report bugs etc. at https://github.com/KonstantinLang/BAplot/issues.
+Report bugs etc. at https://github.com/KonstantinLang/ggBA/issues.
 
 ## References
 

@@ -5,10 +5,10 @@
 #' @param data A data frame
 #' @param var1 1st variable to compare (unquoted)
 #' @param var2 2nd variable to compare (unquoted)
-#' @param label data label (unquote)
+#' @param label data label (unquoted)
 #' @param group grouping variable used for faceting (unquoted)
-#' @param colour colour asthetic for scatter points (unquoted)
-#' @param shape shape asthetic for scatter points (unquoted)
+#' @param colour colour aesthetic for scatter points (unquoted)
+#' @param shape shape aesthetic for scatter points (unquoted)
 #' @param xlab The text for the x-axis label
 #' @param ylab The text for the y-axis label
 #' @param title plot title
@@ -48,7 +48,7 @@ ba_plot <- function(
   alpha   = 0.05
 ) {
 
-  stopifnot(any(class(data) == "data.frame"))
+  stopifnot(inherits(data, "data.frame"))
 
   glbl <- rlang::as_label(rlang::enquo(group))
   glbl <- if (glbl == "NULL") as.character() else glbl
@@ -116,22 +116,13 @@ ba_plot <- function(
       if(length(glbl) > 0)
         ggplot2::facet_wrap(facets = ggplot2::vars({{group}}), scales = "free")
     } +
-    ggplot2::geom_hline(yintercept = 0, size = 1, colour = "#0091DF") +
-    ggplot2::geom_point(size = 3, alpha = 0.5) # +
-    # {
-    #   if(length(glbl) > 0) {
-    #     ggplot2::geom_text(
-    #       mapping     = ggplot2::aes(label = dplyr::if_else(dfce < lloa | dfce > uloa, as.character({{label}}), "")),
-    #       size        = 2,
-    #       show.legend = FALSE
-    #     )
-    #   }
-    # }
+    ggplot2::geom_hline(yintercept = 0, linewidth = 1, colour = "#0091DF") +
+    ggplot2::geom_point(size = 3, alpha = 0.5)
 
   gg_ba <-
     gg_point +
     ggplot2::geom_hline(
-      mapping     = ggplot2::aes(yintercept = value, linetype = ltyp, size = lsiz),
+      mapping     = ggplot2::aes(yintercept = value, linetype = ltyp, linewidth = lsiz),
       data        = tbl_stat,
       show.legend = FALSE
     ) +
@@ -144,7 +135,7 @@ ba_plot <- function(
       inherit.aes = FALSE,
       data        = tbl_stat
     ) +
-    ggplot2::scale_size_manual(values = c(1, 0.5)) +
+    ggplot2::scale_linewidth_manual(values = c(1, 0.5)) +
     ggplot2::labs(
       x = xlab, y = ylab, colour = NULL, shape = NULL,
       title = title, caption = caption

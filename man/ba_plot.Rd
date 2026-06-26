@@ -26,13 +26,13 @@ ba_plot(
 
 \item{var2}{2nd variable to compare (unquoted)}
 
-\item{label}{data label (unquote)}
+\item{label}{data label (unquoted)}
 
 \item{group}{grouping variable used for faceting (unquoted)}
 
-\item{colour}{colour asthetic for scatter points (unquoted)}
+\item{colour}{colour aesthetic for scatter points (unquoted)}
 
-\item{shape}{shape asthetic for scatter points (unquoted)}
+\item{shape}{shape aesthetic for scatter points (unquoted)}
 
 \item{xlab}{The text for the x-axis label}
 
