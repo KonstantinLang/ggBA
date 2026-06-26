@@ -199,7 +199,7 @@ detaching ‘package:tidyr’
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  1.768 0.05 1.819 0 0 
+Time elapsed:  1.774 0.048 1.822 0 0 
 > grDevices::dev.off()
 null device 
           1 
