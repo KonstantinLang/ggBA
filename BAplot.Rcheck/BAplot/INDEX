@@ -1,6 +1,0 @@
-ba_mean_diff            Derive mean and difference for Bland-Altman
-                        analysis
-ba_plot                 Bland-Altman plot
-ba_stat                 Bland-Altman statistics
-gen_temp_data           Generate rodents temperature data
-temperature             Rodent Temperature Data
