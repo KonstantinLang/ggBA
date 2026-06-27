@@ -21,5 +21,5 @@ gen_temp_data(seed = NULL)
 Generate rodents temperature data
 }
 \examples{
-temperature <- BAplot:::gen_temp_data()
+temperature <- ggBA:::gen_temp_data()
 }
