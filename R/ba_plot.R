@@ -100,7 +100,7 @@ ba_plot <- function(
     )
 
   tbl_scale <-
-    tbl_stat_base |>
+    tbl_stat |>
     dplyr::group_by({{group}}) |>
     dplyr::summarise(scale = {
       nz <- abs(value[value != 0])
@@ -109,7 +109,7 @@ ba_plot <- function(
     dplyr::ungroup()
 
   tbl_stat <-
-    tbl_stat_base |>
+    tbl_stat |>
     dplyr::left_join(y = tbl_scale, by = glbl) |>
     dplyr::mutate(
       tx    = xmx + .12 * (xmx-xmn),

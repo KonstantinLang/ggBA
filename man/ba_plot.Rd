@@ -16,7 +16,10 @@ ba_plot(
   ylab = "Difference",
   title = NULL,
   caption = NULL,
-  alpha = 0.05
+  alpha = 0.05,
+  point_size = 3,
+  point_alpha = 0.5,
+  transform = c("identity", "log", "logit")
 )
 }
 \arguments{
@@ -43,6 +46,13 @@ ba_plot(
 \item{caption}{plot caption}
 
 \item{alpha}{alpha level for the intervals}
+
+\item{point_size}{size of the scatter points (passed to \link[ggplot2:geom_point]{ggplot2::geom_point})}
+
+\item{point_alpha}{opacity of the scatter points (passed to \link[ggplot2:geom_point]{ggplot2::geom_point})}
+
+\item{transform}{Transformation applied before computing statistics.  One of \code{"identity"}
+(default), \code{"log"}, or \code{"logit"}.  Delegates to \link{ba_mean_diff}.}
 }
 \value{
 \link[ggplot2:ggplot]{ggplot2::ggplot} object
@@ -52,7 +62,7 @@ Plot Bland-Altman statistics
 }
 \examples{
 library(tidyr)
-tbl <- temperature \%>\% pivot_wider(names_from = method, values_from = temperature)
+tbl <- temperature |> pivot_wider(names_from = method, values_from = temperature)
 
 # simple example
 ba_plot(data = tbl, var1 = infrared, var2 = rectal)
