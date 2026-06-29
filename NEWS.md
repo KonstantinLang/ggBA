@@ -1,4 +1,8 @@
-# BAplot (development version)
+# BAplot 0.3.0
+
+* Added `transform` parameter to `ba_stat()` and `ba_plot()`, supporting
+  `"identity"` (default), `"log"`, and `"logit"` transformations; both
+  functions now delegate mean/difference computation to `ba_mean_diff()`.
 
 # BAplot 0.2.0
 
