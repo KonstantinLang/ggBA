@@ -54,6 +54,13 @@ ba_plot <- function(
 
   stopifnot(inherits(data, "data.frame"))
 
+  v1 <- tryCatch(dplyr::pull(data, {{ var1 }}), error = function(e) NULL)
+  v2 <- tryCatch(dplyr::pull(data, {{ var2 }}), error = function(e) NULL)
+  if (!is.null(v1) && !is.numeric(v1))
+    rlang::abort("`var1` must refer to a numeric column.")
+  if (!is.null(v2) && !is.numeric(v2))
+    rlang::abort("`var2` must refer to a numeric column.")
+
   glbl <- rlang::as_label(rlang::enquo(group))
   glbl <- if (glbl == "NULL") as.character() else glbl
 
