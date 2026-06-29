@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 Load packages
 
 ```{r setup}
-library(magrittr)    # A Forward-Pipe Operator for R
 library(tidyr)       # Tidy Messy Data
 # library(knitr)       # A General-Purpose Package for Dynamic Report Generation in R
 library(kableExtra)  # Construct Complex Table with 'kable' and Pipe Syntax
@@ -44,18 +43,18 @@ Prepare data: create columns for every method of measuring temperature.
 
 ```{r dataprep}
 tbl <- 
-  temperature %>% 
+  temperature |> 
   pivot_wider(names_from = method, values_from = temperature)
 ```
 
-## Compare methods
+## Compare methods (identity scale)
 
 ### Compute statistics
 
 ```{r simple_stats_table}
-ba_stat(data = tbl, var1 = infrared, var2 = rectal) %>% 
-  pivot_wider(names_from = parameter, values_from = value) %>% 
-  kable() %>% 
+ba_stat(data = tbl, var1 = infrared, var2 = rectal) |> 
+  pivot_wider(names_from = parameter, values_from = value) |> 
+  kable() |> 
   kable_styling()
 ```
 
@@ -63,4 +62,73 @@ ba_stat(data = tbl, var1 = infrared, var2 = rectal) %>%
 
 ```{r simple_baplot}
 ba_plot(data = tbl, var1 = infrared, var2 = rectal)
+```
+
+## Compare methods (log scale)
+
+When measurements span several orders of magnitude, or when proportional
+differences are more meaningful than absolute differences, a log-scale
+Bland-Altman analysis is appropriate.  On the log scale the "difference"
+becomes `log(var1) - log(var2) = log(var1 / var2)`, and the bias
+represents a systematic ratio between the two methods.
+
+```{r log_stats_table}
+ba_stat(data = tbl, var1 = infrared, var2 = rectal, transform = "log") |> 
+  pivot_wider(names_from = parameter, values_from = value) |> 
+  kable(digits = 4) |> 
+  kable_styling()
+```
+
+The bias on the log scale can be back-transformed to a ratio:
+`exp(bias)` gives the geometric mean ratio (infrared / rectal).
+
+```{r log_bias_backtransform}
+log_stats <- ba_stat(data = tbl, var1 = infrared, var2 = rectal, transform = "log")
+log_bias  <- log_stats$value[log_stats$parameter == "bias"]
+cat("Geometric mean ratio (infrared / rectal):", round(exp(log_bias), 4), "\n")
+```
+
+Visualize the log-scale Bland-Altman plot.  The y-axis shows
+`log(infrared / rectal)` and the x-axis shows the mean of the log-transformed
+values.
+
+```{r log_baplot}
+ba_plot(
+  data      = tbl,
+  var1      = infrared,
+  var2      = rectal,
+  transform = "log",
+  xlab      = "Mean of log(temperature)",
+  ylab      = "log(infrared / rectal)"
+)
+```
+
+## Compare proportions (logit scale)
+
+For measurements expressed as proportions (values in (0, 1)), a logit
+transformation stabilises variance and yields differences on an
+approximately Normal scale.
+
+```{r logit_example}
+set.seed(42)
+prop_tbl <- data.frame(
+  p1 = runif(60, 0.05, 0.95),
+  p2 = runif(60, 0.05, 0.95)
+)
+
+ba_stat(data = prop_tbl, var1 = p1, var2 = p2, transform = "logit") |>
+  pivot_wider(names_from = parameter, values_from = value) |>
+  kable(digits = 3) |>
+  kable_styling()
+```
+
+```{r logit_baplot}
+ba_plot(
+  data      = prop_tbl,
+  var1      = p1,
+  var2      = p2,
+  transform = "logit",
+  xlab      = "Mean of logit(proportion)",
+  ylab      = "Difference on logit scale"
+)
 ```
