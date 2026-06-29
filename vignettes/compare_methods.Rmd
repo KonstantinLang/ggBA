@@ -23,7 +23,7 @@ library(tidyr)       # Tidy Messy Data
 # library(knitr)       # A General-Purpose Package for Dynamic Report Generation in R
 library(kableExtra)  # Construct Complex Table with 'kable' and Pipe Syntax
 
-library(BAplot)
+library(ggBA)
 ```
 
 Set options
@@ -132,4 +132,3 @@ ba_plot(
   ylab      = "Difference on logit scale"
 )
 ```
-

@@ -10,7 +10,7 @@
 #' \item{temperature}{body temperature in °C, `numeric`}
 #'
 #' @examples
-#' temperature <- BAplot:::gen_temp_data()
+#' temperature <- ggBA:::gen_temp_data()
 gen_temp_data <- function(seed = NULL) {
   set.seed(seed = seed)
 

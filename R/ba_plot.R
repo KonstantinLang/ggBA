@@ -14,6 +14,8 @@
 #' @param title plot title
 #' @param caption plot caption
 #' @param alpha alpha level for the intervals
+#' @param point_size size of the scatter points (passed to [ggplot2::geom_point])
+#' @param point_alpha opacity of the scatter points (passed to [ggplot2::geom_point])
 #'
 #' @return [ggplot2::ggplot] object
 #'
@@ -45,10 +47,19 @@ ba_plot <- function(
   ylab    = "Difference",
   title   = NULL,
   caption = NULL,
-  alpha   = 0.05
+  alpha   = 0.05,
+  point_size  = 3,
+  point_alpha = 0.5
 ) {
 
   stopifnot(inherits(data, "data.frame"))
+
+  v1 <- tryCatch(dplyr::pull(data, {{ var1 }}), error = function(e) NULL)
+  v2 <- tryCatch(dplyr::pull(data, {{ var2 }}), error = function(e) NULL)
+  if (!is.null(v1) && !is.numeric(v1))
+    rlang::abort("`var1` must refer to a numeric column.")
+  if (!is.null(v2) && !is.numeric(v2))
+    rlang::abort("`var2` must refer to a numeric column.")
 
   glbl <- rlang::as_label(rlang::enquo(group))
   glbl <- if (glbl == "NULL") as.character() else glbl
@@ -84,7 +95,10 @@ ba_plot <- function(
     dplyr::left_join(
       y  = {.} %>%
         dplyr::group_by({{group}}) %>%
-        dplyr::summarise(scale = ceiling(log10(min(abs(value))))) %>%
+        dplyr::summarise(scale = {
+          nz <- abs(value[value != 0])
+          if (length(nz) == 0L) 0 else ceiling(log10(min(nz)))
+        }) %>%
         dplyr::ungroup(),
       by = glbl
     ) %>%
@@ -117,7 +131,7 @@ ba_plot <- function(
         ggplot2::facet_wrap(facets = ggplot2::vars({{group}}), scales = "free")
     } +
     ggplot2::geom_hline(yintercept = 0, linewidth = 1, colour = "#0091DF") +
-    ggplot2::geom_point(size = 3, alpha = 0.5)
+    ggplot2::geom_point(size = point_size, alpha = point_alpha)
 
   gg_ba <-
     gg_point +

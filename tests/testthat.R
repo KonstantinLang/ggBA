@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(BAplot)
+library(ggBA)
 
-test_check("BAplot")
+test_check("ggBA")
