@@ -12,7 +12,9 @@ test_that("error: non-data-frame input", {
 
 test_that("silent", {expect_silent(object = gg)})
 
-test_that("type list", {expect_type(object = gg, type = "list")})
+test_that("type compatible across ggplot versions", {
+  expect_true(typeof(gg) %in% c("list", "object"))
+})
 
 test_that("S3 class gg", {expect_s3_class(object = gg, class = "gg")})
 
