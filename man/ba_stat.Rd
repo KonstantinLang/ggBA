@@ -9,7 +9,8 @@ ba_stat(
   var1 = stop("variable must be specified"),
   var2 = stop("variable must be specified"),
   group = NULL,
-  alpha = 0.05
+  alpha = 0.05,
+  transform = c("identity", "log", "logit")
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ ba_stat(
 \item{group}{grouping variable (unquoted)}
 
 \item{alpha}{alpha level for the intervals}
+
+\item{transform}{Transformation to apply before computing statistics.  One of \code{"identity"}
+(default), \code{"log"}, or \code{"logit"}.  Delegates to \link{ba_mean_diff}.}
 }
 \value{
 A \link{tibble} with three variables n (number of observations), parameter and value is returned.
@@ -32,13 +36,13 @@ limits of agreement and their confidence limits.
 }
 \examples{
 library(tidyr)
-tbl <- temperature \%>\% pivot_wider(names_from = method, values_from = temperature)
+tbl <- temperature |> pivot_wider(names_from = method, values_from = temperature)
 
 # simple example
 ba_stat(data = tbl, var1 = infrared, var2 = rectal)
 
 ## example with grouping
-ba_stat(data = tbl, var1 = infrared, var2 = rectal, group = treatment) \%>\%
+ba_stat(data = tbl, var1 = infrared, var2 = rectal, group = treatment) |>
   pivot_wider(names_from = parameter, values_from = value)
 }
 \seealso{
