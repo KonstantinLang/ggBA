@@ -18,7 +18,7 @@ limits of agreement and their confidence limits."><!-- mathjax --><script src="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggBA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -36,6 +36,9 @@ limits of agreement and their confidence limits."><!-- mathjax --><script src="h
       <a href="../articles/compare_methods.html">compare methods</a>
     </li>
   </ul></li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/KonstantinLang/ggBA/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
@@ -67,7 +70,8 @@ limits of agreement and their confidence limits.</p>
 <span>  var1 <span class="op">=</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"variable must be specified"</span><span class="op">)</span>,</span>
 <span>  var2 <span class="op">=</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"variable must be specified"</span><span class="op">)</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"identity"</span>, <span class="st">"log"</span>, <span class="st">"logit"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -94,6 +98,11 @@ limits of agreement and their confidence limits.</p>
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>alpha level for the intervals</p></dd>
 
+
+<dt id="arg-transform">transform<a class="anchor" aria-label="anchor" href="#arg-transform"></a></dt>
+<dd><p>Transformation to apply before computing statistics.  One of <code>"identity"</code>
+(default), <code>"log"</code>, or <code>"logit"</code>.  Delegates to <a href="ba_mean_diff.html">ba_mean_diff</a>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -107,7 +116,7 @@ limits of agreement and their confidence limits.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="va">temperature</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">method</span>, values_from <span class="op">=</span> <span class="va">temperature</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="va">temperature</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">method</span>, values_from <span class="op">=</span> <span class="va">temperature</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># simple example</span></span></span>
 <span class="r-in"><span><span class="fu">ba_stat</span><span class="op">(</span>data <span class="op">=</span> <span class="va">tbl</span>, var1 <span class="op">=</span> <span class="va">infrared</span>, var2 <span class="op">=</span> <span class="va">rectal</span><span class="op">)</span></span></span>
@@ -125,7 +134,7 @@ limits of agreement and their confidence limits.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span>   450 uloa.ucl   3.57  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## example with grouping</span></span></span>
-<span class="r-in"><span><span class="fu">ba_stat</span><span class="op">(</span>data <span class="op">=</span> <span class="va">tbl</span>, var1 <span class="op">=</span> <span class="va">infrared</span>, var2 <span class="op">=</span> <span class="va">rectal</span>, group <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="fu">ba_stat</span><span class="op">(</span>data <span class="op">=</span> <span class="va">tbl</span>, var1 <span class="op">=</span> <span class="va">infrared</span>, var2 <span class="op">=</span> <span class="va">rectal</span>, group <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">parameter</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   treatment     n   bias  lloa  uloa bias.lcl lloa.lcl uloa.lcl bias.ucl</span>
