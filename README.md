@@ -21,7 +21,7 @@ Make sure {remotes} is installed:
 install.packages(c("remotes"))
 ```
 
-Install source package from this repo. 3<sup>rd</sup>-party packages required or suggested by {BAplot} will be installed and/or upgraded automatically.
+Install source package from this repo. 3<sup>rd</sup>-party packages required or suggested by {ggBA} will be installed and/or upgraded automatically.
 
 ```r
 remotes::install_github("KonstantinLang/ggBA")

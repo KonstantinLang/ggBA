@@ -14,6 +14,8 @@
 #' @param title plot title
 #' @param caption plot caption
 #' @param alpha alpha level for the intervals
+#' @param point_size size of the scatter points (passed to [ggplot2::geom_point])
+#' @param point_alpha opacity of the scatter points (passed to [ggplot2::geom_point])
 #' @param transform Transformation applied before computing statistics.  One of `"identity"`
 #'   (default), `"log"`, or `"logit"`.  Delegates to [ba_mean_diff()].
 #'
@@ -48,11 +50,20 @@ ba_plot <- function(
   title     = NULL,
   caption   = NULL,
   alpha     = 0.05,
+  point_size  = 3,
+  point_alpha = 0.5,
   transform = c("identity", "log", "logit")
 ) {
 
   stopifnot(inherits(data, "data.frame"))
   transform <- match.arg(transform)
+
+  v1 <- tryCatch(dplyr::pull(data, {{ var1 }}), error = function(e) NULL)
+  v2 <- tryCatch(dplyr::pull(data, {{ var2 }}), error = function(e) NULL)
+  if (!is.null(v1) && !is.numeric(v1))
+    rlang::abort("`var1` must refer to a numeric column.")
+  if (!is.null(v2) && !is.numeric(v2))
+    rlang::abort("`var2` must refer to a numeric column.")
 
   glbl <- rlang::as_label(rlang::enquo(group))
   glbl <- if (glbl == "NULL") as.character() else glbl
@@ -62,32 +73,44 @@ ba_plot <- function(
 
   # derive all relevant statistics: bias, LoA, and confidence intervals
   tbl_stat <-
-    ba_stat(data = data, var1 = {{var1}}, var2 = {{var2}}, group = {{group}}, alpha = alpha,
-            transform = transform) %>%
+    ba_stat(
+      data = data,
+      var1 = {{var1}},
+      var2 = {{var2}},
+      group = {{group}},
+      alpha = alpha,
+      transform = transform
+    ) |>
     dplyr::mutate(
       ltyp = stringr::str_detect(string = parameter, pattern = "(lcl|ucl)$"),
       lsiz = (parameter != "bias")
-    ) %>%
+    ) |>
     dplyr::left_join(
-      y  = tbl_0 %>%
-        dplyr::group_by({{group}}) %>%
+      y  = tbl_0 |>
+        dplyr::group_by({{group}}) |>
         dplyr::summarise(
           xmn = min(avg, na.rm = TRUE),
           xmx = max(avg, na.rm = TRUE),
           ymn = min(dfce, na.rm = TRUE),
           ymx = max(dfce, na.rm = TRUE),
           .groups = "keep"
-        ) %>%
+        ) |>
         dplyr::ungroup(),
       by = glbl
-    ) %>%
-    dplyr::left_join(
-      y  = {.} %>%
-        dplyr::group_by({{group}}) %>%
-        dplyr::summarise(scale = ceiling(log10(min(abs(value))))) %>%
-        dplyr::ungroup(),
-      by = glbl
-    ) %>%
+    )
+
+  tbl_scale <-
+    tbl_stat_base |>
+    dplyr::group_by({{group}}) |>
+    dplyr::summarise(scale = {
+      nz <- abs(value[value != 0])
+      if (length(nz) == 0L) 0 else ceiling(log10(min(nz)))
+    }) |>
+    dplyr::ungroup()
+
+  tbl_stat <-
+    tbl_stat_base |>
+    dplyr::left_join(y = tbl_scale, by = glbl) |>
     dplyr::mutate(
       tx    = xmx + .12 * (xmx-xmn),
       ty    = value + (ymx-ymn) * .01,
@@ -103,21 +126,21 @@ ba_plot <- function(
   tbl_1 <-
     dplyr::left_join(
       x  = tbl_0,
-      y  = tbl_stat %>%
+      y  = tbl_stat |>
         tidyr::pivot_wider(id_cols = {{group}}, names_from = parameter, values_from = value),
       by = glbl
     )
 
   # create BA-plot
   gg_point <-
-    tbl_1 %>%
+    tbl_1 |>
     ggplot2::ggplot(mapping = ggplot2::aes(x = avg, y = dfce, colour = {{colour}}, shape = {{shape}})) +
     {
       if(length(glbl) > 0)
         ggplot2::facet_wrap(facets = ggplot2::vars({{group}}), scales = "free")
     } +
     ggplot2::geom_hline(yintercept = 0, linewidth = 1, colour = "#0091DF") +
-    ggplot2::geom_point(size = 3, alpha = 0.5)
+    ggplot2::geom_point(size = point_size, alpha = point_alpha)
 
   gg_ba <-
     gg_point +

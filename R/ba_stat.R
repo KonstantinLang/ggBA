@@ -40,6 +40,13 @@ ba_stat <- function(
   stopifnot(is.numeric(alpha), length(alpha) == 1L, alpha > 0, alpha < 1)
   transform <- match.arg(transform)
 
+  v1 <- tryCatch(dplyr::pull(data, {{ var1 }}), error = function(e) NULL)
+  v2 <- tryCatch(dplyr::pull(data, {{ var2 }}), error = function(e) NULL)
+  if (!is.null(v1) && !is.numeric(v1))
+    rlang::abort("`var1` must refer to a numeric column.")
+  if (!is.null(v2) && !is.numeric(v2))
+    rlang::abort("`var2` must refer to a numeric column.")
+                 
   tbl_0 <- ba_mean_diff(data = data, var1 = {{var1}}, var2 = {{var2}}, transform = transform)
 
   tbl_stat_0 <-

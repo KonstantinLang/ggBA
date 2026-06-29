@@ -60,3 +60,34 @@ test_that("grouping: returns one set of statistics per group level", {
   expect_equal(nrow(tbl_grouped), n_groups * n_params)
   expect_true("treatment" %in% names(tbl_grouped))
 })
+
+# --- Edge cases ---
+
+test_that("all-zero differences: bias and LoA are zero, no NaN/Inf", {
+  tbl_zero <- data.frame(x = c(1, 2, 3), y = c(1, 2, 3))
+  result   <- ba_stat(data = tbl_zero, var1 = x, var2 = y)
+  bias     <- result$value[result$parameter == "bias"]
+  expect_equal(bias, 0)
+  expect_true(all(is.finite(result$value)))
+})
+
+test_that("single observation: n=1 produces a result without error", {
+  tbl_one <- data.frame(x = 5, y = 3)
+  expect_no_error(ba_stat(data = tbl_one, var1 = x, var2 = y))
+  result <- ba_stat(data = tbl_one, var1 = x, var2 = y)
+  expect_equal(result$value[result$parameter == "bias"], 2)
+})
+
+test_that("all-NA input: n=0, bias is NaN, function does not crash", {
+  tbl_na <- data.frame(x = c(NA_real_, NA_real_), y = c(NA_real_, NA_real_))
+  expect_no_error(ba_stat(data = tbl_na, var1 = x, var2 = y))
+  result <- ba_stat(data = tbl_na, var1 = x, var2 = y)
+  expect_equal(unique(result$n), 0L)
+  expect_true(is.nan(result$value[result$parameter == "bias"]))
+})
+
+test_that("mixed NA/non-NA: n counts only complete observations", {
+  tbl_mix <- data.frame(x = c(1, 2, NA, 4), y = c(1, 2, 3, NA))
+  result  <- ba_stat(data = tbl_mix, var1 = x, var2 = y)
+  expect_equal(unique(result$n), 2L)
+})
