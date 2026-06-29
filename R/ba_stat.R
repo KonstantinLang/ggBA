@@ -8,10 +8,12 @@
 #' @param var2 2nd variable to compare (unquoted)
 #' @param group grouping variable (unquoted)
 #' @param alpha alpha level for the intervals
+#' @param transform Transformation to apply before computing statistics.  One of `"identity"`
+#'   (default), `"log"`, or `"logit"`.  Delegates to [ba_mean_diff()].
 #'
 #' @return A [tibble] with three variables n (number of observations), parameter and value is returned.
 #'
-#' @seealso [ba_plot]
+#' @seealso [ba_plot], [ba_mean_diff]
 #'
 #' @export
 #'
@@ -26,15 +28,17 @@
 #' ba_stat(data = tbl, var1 = infrared, var2 = rectal, group = treatment) |>
 #'   pivot_wider(names_from = parameter, values_from = value)
 ba_stat <- function(
-  data  = stop("data must be specified"),
-  var1  = stop("variable must be specified"),
-  var2  = stop("variable must be specified"),
-  group = NULL,
-  alpha = .05
+  data      = stop("data must be specified"),
+  var1      = stop("variable must be specified"),
+  var2      = stop("variable must be specified"),
+  group     = NULL,
+  alpha     = .05,
+  transform = c("identity", "log", "logit")
 ) {
 
   stopifnot(inherits(data, "data.frame"))
   stopifnot(is.numeric(alpha), length(alpha) == 1L, alpha > 0, alpha < 1)
+  transform <- match.arg(transform)
 
   v1 <- tryCatch(dplyr::pull(data, {{ var1 }}), error = function(e) NULL)
   v2 <- tryCatch(dplyr::pull(data, {{ var2 }}), error = function(e) NULL)
@@ -42,13 +46,8 @@ ba_stat <- function(
     rlang::abort("`var1` must refer to a numeric column.")
   if (!is.null(v2) && !is.numeric(v2))
     rlang::abort("`var2` must refer to a numeric column.")
-
-  tbl_0 <-
-    data |>
-    dplyr::mutate(
-      dfce = {{var1}} - {{var2}},       # difference
-      avg  = ({{var1}} + {{var2}}) / 2  # average
-    )
+                 
+  tbl_0 <- ba_mean_diff(data = data, var1 = {{var1}}, var2 = {{var2}}, transform = transform)
 
   tbl_stat_0 <-
     tbl_0 |>
