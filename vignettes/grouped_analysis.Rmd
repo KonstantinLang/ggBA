@@ -1,0 +1,86 @@
+---
+title: "Grouped and stratified Bland-Altman analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Grouped and stratified Bland-Altman analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Why group the analysis?
+
+Agreement can differ across biological or operational subgroups.  
+`ggBA` supports grouped summaries and faceted plots to inspect those patterns.
+
+```{r setup}
+library(dplyr)
+library(knitr)
+library(tidyr)
+library(ggBA)
+```
+
+## Build paired data once
+
+```{r prep-data}
+tbl <- temperature |>
+  pivot_wider(names_from = method, values_from = temperature)
+```
+
+## Grouped statistics by treatment
+
+```{r grouped-stats}
+treatment_stats <- ba_stat(
+  data = tbl,
+  var1 = infrared,
+  var2 = rectal,
+  group = treatment
+)
+
+treatment_stats |>
+  filter(parameter %in% c("bias", "lloa", "uloa")) |>
+  tidyr::pivot_wider(names_from = parameter, values_from = value) |>
+  arrange(treatment) |>
+  kable(digits = 3)
+```
+
+This table highlights subgroup-level shifts in bias and spread.
+
+## Faceted Bland-Altman plots
+
+```{r grouped-plot}
+ba_plot(
+  data = tbl,
+  var1 = infrared,
+  var2 = rectal,
+  group = treatment,
+  colour = visit,
+  title = "Agreement by treatment group",
+  caption = "Each panel has treatment-specific Bland-Altman summary lines."
+)
+```
+
+## Optional: log-scale grouped analysis
+
+If multiplicative differences are more relevant, add `transform = "log"`:
+
+```{r grouped-log}
+ba_stat(
+  data = tbl,
+  var1 = infrared,
+  var2 = rectal,
+  group = treatment,
+  transform = "log"
+) |>
+  filter(parameter == "bias") |>
+  mutate(geom_ratio = exp(value)) |>
+  select(treatment, geom_ratio) |>
+  arrange(treatment) |>
+  kable(digits = 3)
+```

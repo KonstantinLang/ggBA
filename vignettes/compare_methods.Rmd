@@ -1,8 +1,8 @@
 ---
-title: "compare methods"
+title: "Compare methods across analysis scales"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{compare methods}
+  %\VignetteIndexEntry{Compare methods across analysis scales}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,83 +14,69 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Setup
-
-Load packages
+## Overview
 
 ```{r setup}
-library(tidyr)       # Tidy Messy Data
-# library(knitr)       # A General-Purpose Package for Dynamic Report Generation in R
-library(kableExtra)  # Construct Complex Table with 'kable' and Pipe Syntax
-
+library(dplyr)
+library(knitr)
+library(tidyr)
 library(ggBA)
 ```
 
-Set options
+This vignette compares the same two measurement methods under three transformations:
 
-```{r options}
-options(
-  kable_styling_bootstrap_options = c("hover", "striped"),
-  kable_styling_full_width = FALSE,
-  kable_styling_position = "left"
-)
-```
+1. `identity`: absolute differences on the original scale
+1. `log`: ratio-focused agreement
+1. `logit`: agreement for proportion-scale measurements
 
-
-## Data
-
-Prepare data: create columns for every method of measuring temperature.
+## Prepare paired data
 
 ```{r dataprep}
-tbl <- 
-  temperature |> 
+tbl <- temperature |>
   pivot_wider(names_from = method, values_from = temperature)
 ```
 
-## Compare methods (identity scale)
+The `temperature` dataset is stored in long format (`method` + `temperature` values).
+For pairwise comparisons, we first create one column per method (`infrared`, `rectal`).
 
-### Compute statistics
+## Identity scale (default)
+
+Use this when absolute differences are directly interpretable.
 
 ```{r simple_stats_table}
-ba_stat(data = tbl, var1 = infrared, var2 = rectal) |> 
-  pivot_wider(names_from = parameter, values_from = value) |> 
-  kable() |> 
-  kable_styling()
+ba_stat(data = tbl, var1 = infrared, var2 = rectal) |>
+  pivot_wider(names_from = parameter, values_from = value) |>
+  kable(digits = 3)
 ```
-
-### Visualize comparison
 
 ```{r simple_baplot}
 ba_plot(data = tbl, var1 = infrared, var2 = rectal)
 ```
 
-## Compare methods (log scale)
+## Log scale
 
-When measurements span several orders of magnitude, or when proportional
-differences are more meaningful than absolute differences, a log-scale
-Bland-Altman analysis is appropriate.  On the log scale the "difference"
-becomes `log(var1) - log(var2) = log(var1 / var2)`, and the bias
-represents a systematic ratio between the two methods.
+Use a log transform when proportional differences are more meaningful than
+absolute ones. On this scale:
+
+`log(var1) - log(var2) = log(var1 / var2)`
 
 ```{r log_stats_table}
-ba_stat(data = tbl, var1 = infrared, var2 = rectal, transform = "log") |> 
-  pivot_wider(names_from = parameter, values_from = value) |> 
-  kable(digits = 4) |> 
-  kable_styling()
+log_stats <- ba_stat(data = tbl, var1 = infrared, var2 = rectal, transform = "log")
+
+log_stats |>
+  pivot_wider(names_from = parameter, values_from = value) |>
+  kable(digits = 4)
 ```
 
-The bias on the log scale can be back-transformed to a ratio:
+The bias can be back-transformed to a ratio:
 `exp(bias)` gives the geometric mean ratio (infrared / rectal).
 
 ```{r log_bias_backtransform}
-log_stats <- ba_stat(data = tbl, var1 = infrared, var2 = rectal, transform = "log")
-log_bias  <- log_stats$value[log_stats$parameter == "bias"]
+log_bias <- log_stats |>
+  filter(parameter == "bias") |>
+  pull(value)
 cat("Geometric mean ratio (infrared / rectal):", round(exp(log_bias), 4), "\n")
 ```
-
-Visualize the log-scale Bland-Altman plot.  The y-axis shows
-`log(infrared / rectal)` and the x-axis shows the mean of the log-transformed
-values.
 
 ```{r log_baplot}
 ba_plot(
@@ -103,11 +89,10 @@ ba_plot(
 )
 ```
 
-## Compare proportions (logit scale)
+## Logit scale for proportions
 
-For measurements expressed as proportions (values in (0, 1)), a logit
-transformation stabilises variance and yields differences on an
-approximately Normal scale.
+For values restricted to `(0, 1)`, a logit transform often gives better
+variance behavior and an approximately Normal difference scale.
 
 ```{r logit_example}
 set.seed(42)
@@ -116,10 +101,11 @@ prop_tbl <- data.frame(
   p2 = runif(60, 0.05, 0.95)
 )
 
-ba_stat(data = prop_tbl, var1 = p1, var2 = p2, transform = "logit") |>
+logit_stats <- ba_stat(data = prop_tbl, var1 = p1, var2 = p2, transform = "logit")
+
+logit_stats |>
   pivot_wider(names_from = parameter, values_from = value) |>
-  kable(digits = 3) |>
-  kable_styling()
+  kable(digits = 3)
 ```
 
 ```{r logit_baplot}

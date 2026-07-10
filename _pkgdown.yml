@@ -1,0 +1,59 @@
+url: https://konstantinlang.github.io/ggBA/
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    base_font: {google: "Inter"}
+    heading_font: {google: "Space Grotesk"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: ggBA
+  description: Tidy Bland-Altman statistics and plotting with ggplot2.
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: Overview
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Guides
+      menu:
+      - text: Getting started
+        href: articles/getting_started.html
+      - text: Compare methods across scales
+        href: articles/compare_methods.html
+      - text: Grouped and stratified analysis
+        href: articles/grouped_analysis.html
+    news:
+      text: Changelog
+      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/KonstantinLang/ggBA
+      aria-label: GitHub repository
+
+reference:
+- title: Core analysis functions
+  contents:
+  - ba_mean_diff
+  - ba_stat
+  - ba_plot
+- title: Data
+  contents:
+  - temperature
+  - gen_temp_data
+
+articles:
+- title: Guides
+  navbar: Guides
+  contents:
+  - getting_started
+  - compare_methods
+  - grouped_analysis
