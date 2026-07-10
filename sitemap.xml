@@ -1,18 +1,20 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/articles/compare_methods.html</loc></url>
-<url><loc>/articles/index.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/news/index.html</loc></url>
-<url><loc>/reference/ba_mean_diff.html</loc></url>
-<url><loc>/reference/ba_plot.html</loc></url>
-<url><loc>/reference/ba_stat.html</loc></url>
-<url><loc>/reference/gen_temp_data.html</loc></url>
-<url><loc>/reference/ggBA-package.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/temperature.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/404.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/LICENSE-text.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/LICENSE.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/articles/compare_methods.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/articles/getting_started.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/articles/grouped_analysis.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/articles/index.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/authors.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/index.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/news/index.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/ba_mean_diff.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/ba_plot.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/ba_stat.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/gen_temp_data.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/ggBA-package.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/index.html</loc></url>
+<url><loc>https://konstantinlang.github.io/ggBA/reference/temperature.html</loc></url>
 </urlset>
 
