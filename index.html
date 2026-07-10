@@ -97,6 +97,21 @@
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"KonstantinLang/ggBA"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="cran-pre-submission-check">CRAN pre-submission check<a class="anchor" aria-label="anchor" href="#cran-pre-submission-check"></a>
+</h2>
+<p>For a full local CRAN-style check (including manual/PDF checks), install system tools first:</p>
+<ul>
+<li>
+<code>pdflatex</code> (e.g. via TeX Live/TinyTeX)</li>
+<li><code>qpdf</code></li>
+<li>
+<code>tidy</code> (optional, for HTML validation notes)</li>
+</ul>
+<p>Then run:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">R</span> CMD build .</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">R</span> CMD check <span class="at">--as-cran</span> BAplot_<span class="pp">*</span>.tar.gz</span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="issue-tracker">Issue tracker<a class="anchor" aria-label="anchor" href="#issue-tracker"></a>
 </h2>
 <p>Report bugs etc. at <a href="https://github.com/KonstantinLang/ggBA/issues" class="external-link uri">https://github.com/KonstantinLang/ggBA/issues</a>.</p>
@@ -160,7 +175,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
