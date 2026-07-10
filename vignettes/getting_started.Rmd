@@ -1,0 +1,75 @@
+---
+title: "Getting started with ggBA"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with ggBA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What this guide covers
+
+This short guide walks through a complete Bland-Altman workflow:
+
+1. reshape long-format data into paired columns
+1. compute agreement statistics
+1. visualize agreement with one line of plotting code
+
+```{r setup}
+library(knitr)
+library(tidyr)
+library(ggBA)
+```
+
+## 1) Prepare paired measurements
+
+`temperature` contains one row per animal, visit, and measurement method.  
+To compare two methods directly, pivot to wide format.
+
+```{r prep-data}
+tbl <- temperature |>
+  pivot_wider(names_from = method, values_from = temperature)
+
+head(tbl, 6) |>
+  kable(digits = 2)
+```
+
+## 2) Compute Bland-Altman statistics
+
+```{r compute-stats}
+stats_tbl <- ba_stat(tbl, infrared, rectal)
+stats_tbl |>
+  tidyr::pivot_wider(names_from = parameter, values_from = value) |>
+  kable(digits = 3)
+```
+
+The most commonly interpreted quantities are:
+
+1. `bias`: average difference between methods
+1. `lloa` and `uloa`: lower and upper limits of agreement
+
+## 3) Plot agreement
+
+```{r make-plot}
+ba_plot(
+  data = tbl,
+  var1 = infrared,
+  var2 = rectal,
+  title = "Infrared vs rectal temperature",
+  caption = "Lines show bias and limits of agreement with confidence bounds."
+)
+```
+
+## Next steps
+
+After this baseline workflow, explore:
+
+1. transformed analyses (`transform = "log"` or `"logit"`)
+1. grouped analyses via `group =` in `ba_stat()` and `ba_plot()`

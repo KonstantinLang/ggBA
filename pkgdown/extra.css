@@ -1,0 +1,60 @@
+:root {
+  --ggba-accent: #2f6db5;
+  --ggba-accent-soft: #eef4fb;
+  --ggba-border: #d8e3f3;
+}
+
+body {
+  font-feature-settings: "ss01" 1, "cv03" 1;
+}
+
+.navbar {
+  border-bottom: 1px solid var(--ggba-border);
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.04);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.template-home h1,
+.template-home h2,
+.template-home h3 {
+  letter-spacing: -0.01em;
+}
+
+.template-home .page-header {
+  border: 1px solid var(--ggba-border);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #ffffff 0%, var(--ggba-accent-soft) 100%);
+  padding: 1.5rem;
+}
+
+.template-home .page-header p {
+  color: #3a4c66;
+  margin-bottom: 0;
+}
+
+.template-reference-index .ref-index th,
+.template-reference-index .ref-index td {
+  vertical-align: middle;
+}
+
+pre, code {
+  border-radius: 8px;
+}
+
+a {
+  text-underline-offset: 0.15em;
+}
+
+a:hover,
+a:focus {
+  color: var(--ggba-accent);
+}
+
+.btn-primary {
+  background-color: var(--ggba-accent);
+  border-color: var(--ggba-accent);
+}

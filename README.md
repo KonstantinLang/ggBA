@@ -5,46 +5,56 @@
   [![](https://img.shields.io/github/last-commit/KonstantinLang/ggBA.svg)](https://github.com/KonstantinLang/ggBA/commits/main)
 <!-- badges: end -->
 
-## Bland-Altman
+## ggBA
 
-A Bland-Altman plot is a method of data plotting used in analyzing the agreement between two different methods. It was popularised in medical statistics by J. Martin Bland and Douglas G. Altman. [[1]](#r1) [[2]](#r2)
+**ggBA** helps you compute and visualize Bland-Altman agreement statistics with a tidy, ggplot2-friendly workflow.
 
-For more details see https://en.wikipedia.org/wiki/Bland%E2%80%93Altman_plot
+It supports identity, log, and logit scales so you can analyze absolute differences, ratios, or proportion-scale agreement in a consistent API.
 
-This package provides functions to plot Bland-Altman statistics based on {[ggplot2](https://github.com/tidyverse/ggplot2)} functionality.
+## Website and guides
+
+Package site: <https://konstantinlang.github.io/ggBA/>
+
+Included vignettes:
+
+1. `getting_started`: first analysis in a few steps
+1. `compare_methods`: side-by-side comparisons across scales
+1. `grouped_analysis`: stratified analysis and faceted visualization
 
 ## Installation
 
-Make sure {remotes} is installed:
+Install the development version from GitHub:
 
 ```r
-install.packages(c("remotes"))
-```
-
-Install source package from this repo. 3<sup>rd</sup>-party packages required or suggested by {ggBA} will be installed and/or upgraded automatically.
-
-```r
+install.packages("remotes")
 remotes::install_github("KonstantinLang/ggBA")
 ```
 
-## CRAN pre-submission check
+## Quick example
 
-For a full local CRAN-style check (including manual/PDF checks), install system tools first:
+```r
+library(tidyr)
+library(ggBA)
 
-- `pdflatex` (e.g. via TeX Live/TinyTeX)
-- `qpdf`
-- `tidy` (optional, for HTML validation notes)
+tbl <- temperature |>
+  pivot_wider(names_from = method, values_from = temperature)
 
-Then run:
+ba_stat(tbl, infrared, rectal)
+ba_plot(tbl, infrared, rectal)
+```
+
+## Development checks
+
+For a full local CRAN-style check (including manual/PDF checks), install system tools first (`pdflatex`, `qpdf`, and optionally `tidy`), then run:
 
 ```sh
 R CMD build .
-R CMD check --as-cran BAplot_*.tar.gz
+R CMD check --as-cran ggBA_*.tar.gz
 ```
 
 ## Issue tracker
 
-Report bugs etc. at https://github.com/KonstantinLang/ggBA/issues.
+Report issues at <https://github.com/KonstantinLang/ggBA/issues>.
 
 ## References
 
